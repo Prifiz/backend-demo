@@ -41,6 +41,7 @@ public class QuoteService {
         try (InputStream inputStream = getClass().getResourceAsStream(filename);
              BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream))) {
             return reader.lines()
+                    .filter(line -> !line.isEmpty())
                     .collect(Collectors.toList());
         }
 
