@@ -4,4 +4,4 @@ server:
     context-path: /backend
 
 quotes:
-  file-path: static/quotes.txt
+  file-path: /static/quotes.txt

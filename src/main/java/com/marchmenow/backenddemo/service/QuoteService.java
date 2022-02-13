@@ -1,6 +1,9 @@
 package com.marchmenow.backenddemo.service;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.net.URISyntaxException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -35,12 +38,19 @@ public class QuoteService {
     }
 
     private List<String> readQuotes(String filename) throws IOException, URISyntaxException {
-        if (Optional.ofNullable(ClassLoader.getSystemResource(filename)).isEmpty()) {
-            throw new QuoteException("Файл с цитатами не найден");
+        try (InputStream inputStream = getClass().getResourceAsStream(filename);
+             BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream))) {
+            return reader.lines()
+                    .collect(Collectors.toList());
         }
-        Path quotesPath = Paths.get(ClassLoader.getSystemResource(filename).toURI());
-        return Files.lines(quotesPath).
-                filter(it -> !it.strip().isBlank()).
-                collect(Collectors.toList());
+
+//
+//        if (Optional.ofNullable(ClassLoader.getSystemResource(filename)).isEmpty()) {
+//            throw new QuoteException("Файл с цитатами не найден");
+//        }
+//        Path quotesPath = Paths.get(ClassLoader.getSystemResource(filename).toURI());
+//        return Files.lines(quotesPath).
+//                filter(it -> !it.strip().isBlank()).
+//                collect(Collectors.toList());
     }
 }
