@@ -1,0 +1,7 @@
+server:
+  port: 1234
+  servlet:
+    context-path: /backend
+
+quotes:
+  file-path: static/quotes.txt
